@@ -1,6 +1,329 @@
-version: 2
-updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "monthly"
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Detalles Láser Personalizados</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f5f7fa;
+    color: #2c3e50;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+
+  header {
+    background: linear-gradient(135deg, #2980b9 0%, #34495e 100%);
+    color: white;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border-bottom: 4px solid #e67e22;
+  }
+
+  header h1 {
+    font-size: 3rem;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 3px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  header p {
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin: 0;
+    font-style: italic;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.25);
+  }
+
+  nav {
+    margin-top: 1.5rem;
+  }
+
+  nav a {
+    color: #f39c12;
+    text-decoration: none;
+    margin: 0 1.2rem;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 3px 7px rgba(243, 156, 18, 0.4);
+    display: inline-block;
+  }
+
+  nav a:hover,
+  nav a:focus {
+    background-color: #f39c12;
+    color: #2c3e50;
+    transform: scale(1.1);
+    outline: none;
+    box-shadow: 0 6px 15px rgba(243, 156, 18, 0.8);
+  }
+
+  main {
+    max-width: 1050px;
+    margin: 3rem auto 5rem auto;
+    padding: 0 1.5rem;
+  }
+
+  section {
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+    will-change: opacity, transform;
+    background: white;
+    border-radius: 18px;
+    padding: 2.7rem 3rem;
+    box-shadow: 0 15px 30px rgba(231, 126, 34, 0.15);
+  }
+
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #2980b9;
+    margin-bottom: 1.7rem;
+    border-left: 7px solid #e67e22;
+    padding-left: 18px;
+    text-shadow: 0 1px 2px rgba(230,126,34,0.4);
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    gap: 2.5rem;
+  }
+
+  .gallery img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(41, 128, 185, 0.15);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 0.4s ease;
+    cursor: pointer;
+    filter: grayscale(15%);
+    will-change: transform;
+  }
+
+  .gallery img:hover {
+    transform: scale(1.12) rotate(2deg);
+    box-shadow: 0 20px 45px rgba(230, 126, 34, 0.5);
+    filter: grayscale(0%);
+    z-index: 12;
+    position: relative;
+  }
+
+  .description p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin-bottom: 1.3rem;
+    color: #34495e;
+  }
+
+  .contact-info {
+    background: #e67e22;
+    color: white;
+    padding: 2rem 3rem;
+    border-radius: 22px;
+    max-width: 480px;
+    margin: 0 auto;
+    font-size: 1.3rem;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(230, 126, 34, 0.4);
+    cursor: pointer;
+    transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  .contact-info:hover,
+  .contact-info:focus {
+    background-color: #d35400;
+    color: #fce5d7;
+    outline: none;
+    transform: scale(1.05);
+    box-shadow: 0 25px 50px rgba(211, 84, 0, 0.75);
+  }
+
+  .contact-info a {
+    color: white;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.6rem;
+    display: inline-block;
+    margin-top: 0.8rem;
+  }
+
+  .contact-info a:hover,
+  .contact-info a:focus {
+    color: #fce5d7;
+    text-decoration: underline;
+    outline: none;
+  }
+
+  #ubicacion p {
+    font-size: 1.3rem;
+    max-width: 780px;
+    margin: 0 auto;
+    color: #5d6d7e;
+    text-align: center;
+    line-height: 1.75;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2.2rem 1.2rem;
+    font-size: 1rem;
+    color: #7f8c8d;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+  }
+
+  #scrollTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #2980b9;
+    color: white;
+    border: none;
+    padding: 14px 18px;
+    border-radius: 50%;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 15px 30px rgba(41, 128, 185, 0.75);
+    display: none;
+    z-index: 1001;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  #scrollTopBtn:hover,
+  #scrollTopBtn:focus {
+    background-color: #1b6791;
+    outline: none;
+    transform: scale(1.15);
+  }
+
+  @media (max-width: 480px) {
+    header h1 {
+      font-size: 2.2rem;
+    }
+    header p {
+      font-size: 1.1rem;
+    }
+    nav a {
+      margin: 0 0.7rem;
+      font-size: 1rem;
+      padding: 5px 12px;
+    }
+    section {
+      padding: 2rem 2.2rem;
+    }
+    .description p {
+      font-size: 1.1rem;
+    }
+    #ubicacion p {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Detalles Láser Personalizados</h1>
+  <p>El arte del corte láser para momentos inolvidables</p>
+  <nav>
+    <a href="#galeria" tabindex="0">Galería</a>
+    <a href="#sobre-nosotros" tabindex="0">Sobre Nosotros</a>
+    <a href="#contacto" tabindex="0">Contacto</a>
+    <a href="#ubicacion" tabindex="0">Ubicación</a>
+  </nav>
+</header>
+<main>
+  <section id="galeria" tabindex="0">
+    <h2>Galería de Ejemplos</h2>
+    <div class="gallery" aria-label="Galería de ejemplos de detalles personalizados por corte láser">
+      <img src="https://cdn.pixabay.com/photo/2016/11/29/05/08/puzzle-1869719_1280.jpg" alt="Rompecabezas personalizado para pareja" />
+      <img src="https://cdn.pixabay.com/photo/2017/03/09/12/31/cut-2123780_1280.jpg" alt="Detalle de acrílico cortado por láser" />
+      <img src="https://cdn.pixabay.com/photo/2016/12/09/17/16/laser-1892436_1280.jpg" alt="Corte láser en MDF detalle" />
+      <img src="https://cdn.pixabay.com/photo/2017/08/31/08/46/laser-cut-2690774_1280.jpg" alt="Diferentes materiales para corte láser" />
+      <img src="https://cdn.pixabay.com/photo/2016/03/09/09/30/sticker-1241144_1280.jpg" alt="Stickers adhesivos variados" />
+      <img src="https://cdn.pixabay.com/photo/2016/06/29/11/14/sticker-1482477_1280.jpg" alt="Stickers brillante y mate" />
+      <img src="https://cdn.pixabay.com/photo/2017/12/10/05/11/sign-3019884_1280.jpg" alt="Habladores en acrílico para locales" />
+    </div>
+  </section>
+  <section class="description" id="sobre-nosotros" tabindex="0">
+    <h2>Sobre Nosotros</h2>
+    <p>Nos especializamos en la elaboración de detalles personalizados mediante corte láser en materiales como acrílico, MDF de 3mm, cartón maqueta, espuma flex, cartulina y más.</p>
+    <p>Realizamos piezas únicas para ocasiones especiales, como rompecabezas personalizados para tu pareja o seres queridos, creando recuerdos inolvidables y detalles llenos de significado.</p>
+    <p>Además, elaboramos stickers en adhesivo mate o brillante, realizamos laminados para proteger y mejorar la apariencia de tus productos.</p>
+    <p>También fabricamos habladores para tu local en materiales como acrílico, MDF o PVC, personalizados según tus necesidades para destacar tu negocio.</p>
+    <p>Escríbenos, podemos ayudarte a crear ese detalle especial o material publicitario que necesitas.</p>
+  </section>
+  <section id="contacto" tabindex="0">
+    <h2>Contacto</h2>
+    <div class="contact-info" role="button" tabindex="0" aria-label="Llamar por WhatsApp al número +598 988 517 030" onclick="window.open('https://wa.me/598988517030','_blank');" onkeypress="if(event.key==='Enter'){ window.open('https://wa.me/598988517030','_blank'); }">
+      <p>¿Quieres un detalle único? Escríbenos por WhatsApp:</p>
+      <p><strong>+598 988 517 030</strong></p>
+    </div>
+  </section>
+  <section id="ubicacion" tabindex="0">
+    <h2>Ubicación</h2>
+    <p>Estamos ubicados en el Cantón Loja, y servimos a toda la región con entregas personalizadas y atención dedicada.</p>
+  </section>
+</main>
+<footer>
+  &copy; 2024 Detalles Láser Personalizados - Todos los derechos reservados
+</footer>
+
+<button id="scrollTopBtn" aria-label="Volver arriba" title="Volver arriba">&#8679;</button>
+
+<script>
+  // Animation for sections on scroll
+  function checkVisibility() {
+    const sections = document.querySelectorAll('section');
+    const triggerBottom = window.innerHeight * 0.85;
+
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if(rect.top < triggerBottom) {
+        section.classList.add('visible');
+      }
+    });
+  }
+  window.addEventListener('scroll', checkVisibility);
+  window.addEventListener('load', checkVisibility);
+
+  // Scroll to top button
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 300) {
+      scrollTopBtn.style.display = 'block';
+    } else {
+      scrollTopBtn.style.display = 'none';
+    }
+  });
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
+
